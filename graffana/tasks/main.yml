@@ -1,0 +1,12 @@
+---
+- name: Download url for Grafana
+  get_url: url=https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_5.3.0_amd64.deb dest=/tmp mode=0440
+- name: Install Grafana packages
+  apt: name={{item}} state=present update_cache=yes
+  with_items:
+        - adduser
+        - libfontconfig
+- name: Install repository
+  command: dpkg -i /tmp/grafana_5.3.0_amd64.deb
+- name: Make grafana autorestart
+  command: update-rc.d grafana-server defaults
