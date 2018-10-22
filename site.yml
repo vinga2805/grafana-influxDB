@@ -2,4 +2,14 @@
 - hosts: grafana
   become: true
   roles:
-    - graffana
+    - {role: 'graffana', tags: 'web'}
+- hosts: influx
+  become: true
+  roles:
+    - {role: 'influx', tags: 'db'}
+- hosts: grafana
+  become: true
+  roles:
+    - {role: 'datasource', tags: 'data'}
+    - {role: 'dashboard', tags: 'dash'}
+

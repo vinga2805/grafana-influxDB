@@ -1,0 +1,11 @@
+---
+- name: "Copy dashbaords from file dir to {{ grafana_dir_dashboards }}"
+  copy:
+    src: "{{ item }}"
+    dest: "{{ grafana_dir_dashboards }}/{{ item }}"
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+    mode: 0755
+  with_items:
+    - data.json
+  notify: restart grafana

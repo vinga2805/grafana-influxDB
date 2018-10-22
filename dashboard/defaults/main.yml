@@ -1,0 +1,8 @@
+---
+grafana_url: "http://13.233.119.82:3000"
+grafana_user: "grafana" 
+grafana_password: "grafana"
+grafana_group: "grafana"
+org_id: "1"
+grafana_dir_dashboards: "/var/lib/grafana/dashboards"
+grafana_service_name: "grafana-server"

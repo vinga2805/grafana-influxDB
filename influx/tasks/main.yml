@@ -1,2 +1,28 @@
 ---
-# tasks file for influx
+- name: Import InfluxDB GPG signing key
+  apt_key: url=https://repos.influxdata.com/influxdb.key state=present
+- name: Add InfluxDB repository
+  apt_repository: repo='deb https://repos.influxdata.com/ubuntu trusty stable' state=present
+- name: Install InfluxDB packages
+  apt: name=influxdb state=present
+  #- name: Modify InfluxDB hostname
+  #replace:
+  # dest=/etc/opt/influxdb/influxdb.conf
+  # regexp='hostname = "localhost"'
+  # replace='hostname = "{{ ansible_hostname }}"'
+  # backup=yes
+- name: Install pip
+  apt: name={{item}} state=present update_cache=yes
+  with_items:
+       - python-pip
+- name: Install requests module for influxdb
+  pip: name={{item}} state=present
+  with_items:
+       - requests
+       - influxdb
+- name: Start the InfluxDB service
+  service: name=influxdb state=restarted
+- name: Create database
+  influxdb_database: hostname="{{ ansible_hostname }}" database_name="{{ db_name }}" state=present
+- name: create DB user
+  influxdb_user: user_name="{{ user }}" user_password="{{ password }}" admin=yes hostname="{{ ansible_hostname }}"

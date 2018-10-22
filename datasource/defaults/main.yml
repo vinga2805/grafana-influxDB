@@ -1,0 +1,13 @@
+---
+grafana_url: "http://13.232.64.213:3000"
+grafana_user: admin
+grafana_password: "Benhur05"
+org_id: "1"
+
+data_source:
+  - name: influxdb 
+    ds_type: "influxdb"
+    url: "http://172.31.12.56:8086"
+    user: "grafana"
+    password: "test123"
+    database: test

@@ -1,2 +1,19 @@
 ---
-# defaults file for graffana
+grafana_dir_dashboards: "/var/lib/grafana/dashboards"
+grafana_user: "grafana"
+grafana_group: "grafana"
+grafana_service_name: "grafana-server"
+grafana_plugins:
+  - grafana-clock-panel
+  - grafana-simple-json-datasource
+  - grafana-worldmap-panel
+  - grafana-piechart-panel
+  - digiapulssi-breadcrumb-panel
+  - crate-datasource
+grafana_cli: grafana-cli
+grafana_ubuntu_dist: wheezy
+grafana_repo: "deb https://packagecloud.io/grafana/stable/{{ ansible_os_family | lower }}/ {{ grafana_ubuntu_dist }} main"
+grafana_defaults_file: /etc/default/grafana-server
+grafana_packages:
+  - grafana
+  - apt-transport-https

@@ -8,5 +8,22 @@
         - libfontconfig
 - name: Install repository
   command: dpkg -i /tmp/grafana_5.3.0_amd64.deb
+- name: "Install grafana packages"
+  package: name="{{ item }}" state=present
+  with_items:
+    - "{{ grafana_packages }}"
+  register: install_packages
+
+- name: Create directory for Dashboards.
+  file: state=directory path={{ item }} owner={{ grafana_user }} group={{ grafana_group }} mode=0755
+  with_items:
+       - "{{ grafana_dir_dashboards }}"
+
+- name: "Install grafand plugins [ when defined ]"
+  shell: "{{ grafana_cli }} plugins ls | grep {{ item }} || {{ grafana_cli }} plugins install {{ item }}"
+  with_items:
+      - "{{ grafana_plugins }}"
+  notify: restart grafana
+
 - name: Make grafana autorestart
   command: update-rc.d grafana-server defaults
